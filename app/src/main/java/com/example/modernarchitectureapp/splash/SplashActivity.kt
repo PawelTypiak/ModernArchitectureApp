@@ -1,12 +1,16 @@
-package com.example.modernarchitectureapp
+package com.example.modernarchitectureapp.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.modernarchitectureapp.MainActivity
+import com.example.modernarchitectureapp.R
 
 class SplashActivity : AppCompatActivity() {
+
+    private val viewModel: SplashViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -14,7 +18,11 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initializeData() {
-        Handler(Looper.getMainLooper()).postDelayed({ navigateToMainActivity() }, 1000)
+        viewModel.initializationCompleted.observe(this) {
+            if (it) {
+                navigateToMainActivity()
+            }
+        }
     }
 
     private fun navigateToMainActivity() {
